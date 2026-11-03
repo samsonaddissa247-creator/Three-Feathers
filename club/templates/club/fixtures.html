@@ -1,0 +1,55 @@
+{% extends 'club/base.html' %}
+
+{% block title %}Fixtures | Three Feathers{% endblock %}
+
+{% block content %}
+<section class="page-section">
+  <div class="wrap">
+    <h1>Fixtures & results</h1>
+    <p class="lede">Upcoming games and the results that are already in the books.</p>
+
+    <div class="split-stack">
+      <div>
+        <h2 class="section-subtitle">Upcoming matches</h2>
+        {% for fixture in upcoming %}
+        <article class="fx">
+          <div class="when"><b>{{ fixture.date|date:'d' }}</b><span>{{ fixture.date|date:'M Y' }}</span></div>
+          <div>
+            <h3>Three Feathers v {{ fixture.opponent }}</h3>
+            <small>{{ fixture.date|date:'l' }}, {{ fixture.time|time:'H:i' }} • {{ fixture.venue }}</small>
+          </div>
+          <div class="resbox"><span class="score">{{ fixture.home|yesno:'Home,Away' }}</span><span class="res">Next up</span></div>
+        </article>
+        {% empty %}
+        <p class="empty">No upcoming fixtures have been added.</p>
+        {% endfor %}
+      </div>
+
+      <div>
+        <h2 class="section-subtitle">Results</h2>
+        {% for fixture in played %}
+        <article class="fx">
+          <div class="when"><b>{{ fixture.date|date:'d' }}</b><span>{{ fixture.date|date:'M Y' }}</span></div>
+          <div>
+            <h3>Three Feathers v {{ fixture.opponent }}</h3>
+            <small>{{ fixture.venue }}</small>
+          </div>
+          <div class="resbox">
+            <span class="score">{{ fixture.us }} – {{ fixture.them }}</span>
+            {% if fixture.us > fixture.them %}
+            <span class="res w">Win</span>
+            {% elif fixture.us < fixture.them %}
+            <span class="res l">Loss</span>
+            {% else %}
+            <span class="res">Draw</span>
+            {% endif %}
+          </div>
+        </article>
+        {% empty %}
+        <p class="empty">No results have been recorded yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

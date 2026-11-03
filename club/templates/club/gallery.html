@@ -1,0 +1,24 @@
+{% extends 'club/base.html' %}
+
+{% block title %}Gallery | Three Feathers{% endblock %}
+
+{% block content %}
+<section class="page-section">
+  <div class="wrap">
+    <h1>Match gallery</h1>
+    <p class="lede">Moments from training sessions, match days, and the club’s best performances.</p>
+    <div class="gal">
+      {% for image in gallery %}
+      <figure>
+        {% if image.image %}
+        <img src="{{ image.image.url }}" alt="{{ image.title }}">
+        {% endif %}
+        <figcaption>{{ image.caption }}</figcaption>
+      </figure>
+      {% empty %}
+      <p class="empty on-bg">No gallery images have been added yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'club/base.html' %}
+
+{% block title %}Coach login | Three Feathers{% endblock %}
+
+{% block content %}
+<section class="page-section">
+  <div class="wrap auth-wrap">
+    <div class="panel auth-panel">
+      <h1>Coach access</h1>
+      <p class="lede">Enter the coach password to manage players, fixtures, club info and gallery updates.</p>
+      {% if messages %}
+        {% for message in messages %}
+          <p class="error-message">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn" type="submit">Unlock coach area</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

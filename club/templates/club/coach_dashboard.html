@@ -1,0 +1,100 @@
+{% extends 'club/base.html' %}
+
+{% block title %}Coach dashboard | Three Feathers{% endblock %}
+
+{% block content %}
+<section class="page-section">
+  <div class="wrap">
+    <h1>Coach dashboard</h1>
+    <p class="lede">Use the forms below to update club information, add players, fixtures and match images.</p>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="success-message">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="coach-grid">
+      <div class="panel">
+        <h2>Club information</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="target" value="club">
+          {{ club_form.as_p }}
+          <button class="btn" type="submit">Save club details</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Add player</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="target" value="player">
+          {{ player_form.as_p }}
+          <button class="btn" type="submit">Add player</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Add upcoming match</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="target" value="upcoming">
+          {{ upcoming_form.as_p }}
+          <p class="form-help">Leave the score fields empty for upcoming fixtures.</p>
+          <button class="btn" type="submit">Add upcoming match</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Add played result</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="target" value="result">
+          {{ result_form.as_p }}
+          <button class="btn" type="submit">Save match result</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Add gallery image</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="target" value="gallery">
+          {{ gallery_form.as_p }}
+          <button class="btn" type="submit">Upload image</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="admin-lists">
+      <div class="panel">
+        <h2>Players</h2>
+        {% for player in players %}
+          <div class="mini-item"><strong>{{ player.name }}</strong> — {{ player.position }} ({{ player.goals }} goals, {{ player.assists }} assists)</div>
+        {% empty %}
+          <p class="empty">No players added yet.</p>
+        {% endfor %}
+      </div>
+
+      <div class="panel">
+        <h2>Fixtures</h2>
+        {% for fixture in fixtures %}
+          <div class="mini-item"><strong>{{ fixture.opponent }}</strong> — {{ fixture.date }} {% if fixture.us != None %}{{ fixture.us }} - {{ fixture.them }}{% endif %}</div>
+        {% empty %}
+          <p class="empty">No fixtures added yet.</p>
+        {% endfor %}
+      </div>
+
+      <div class="panel">
+        <h2>Gallery</h2>
+        {% for image in gallery %}
+          <div class="mini-item"><strong>{{ image.title }}</strong> — {{ image.caption }}</div>
+        {% empty %}
+          <p class="empty">No gallery images added yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

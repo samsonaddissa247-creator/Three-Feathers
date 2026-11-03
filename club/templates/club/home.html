@@ -1,0 +1,111 @@
+{% extends 'club/base.html' %}
+
+{% block title %}Three Feathers{% endblock %}
+
+{% block content %}
+<div class="hero" id="home">
+  <div class="wrap hero-inner">
+    <div class="badge">TF</div>
+    <div>
+      <h1>Three Feathers</h1>
+      <p>{{ club.about|default:'A field hockey club with a proud crest and a squad that plays for each other.' }}</p>
+      <div class="stats">
+        <div class="stat"><b>{{ stats.players }}</b><span>Players</span></div>
+        <div class="stat"><b>{{ stats.goals }}</b><span>Goals</span></div>
+        <div class="stat"><b>{{ stats.assists }}</b><span>Assists</span></div>
+        <div class="stat"><b>{{ stats.fixtures }}</b><span>Results</span></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn alt" href="{% url 'players' %}">Meet the squad</a>
+        <a class="btn" href="{% url 'fixtures' %}">See fixtures</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section>
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="panel">
+          <h3>Club notes</h3>
+          <p>{{ club.about|default:'The club is building momentum, with a squad that values structure, quality and togetherness.' }}</p>
+        </div>
+        <div class="panel">
+          <h3>Club details</h3>
+          <dl class="facts">
+            <div><dt>Training</dt><dd>{{ club.training|default:'Tuesday and Thursday, 6:30pm' }}</dd></div>
+            <div><dt>Home pitch</dt><dd>{{ club.pitch|default:'Alder Park' }}</dd></div>
+            <div><dt>Contact</dt><dd>{{ club.contact|default:'hello@threefeathers.club' }}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leaders">
+    <div class="wrap">
+      <h2>Leaders</h2>
+      <p class="lede">The players driving the attacking rhythm and setting up the chances.</p>
+      <div class="boards">
+        <div class="panel">
+          <h3>Top goalscorers</h3>
+          {% for player in top_goals %}
+          <div class="row {% if forloop.first %}lead{% endif %}">
+            <span class="rank">{{ forloop.counter }}</span>
+            <div class="who"><strong>{{ player.name }}</strong><span>{{ player.position }}</span></div>
+            <span class="val">{{ player.goals }}</span>
+            <div class="bar"><i style="width: {% widthratio player.goals 20 100 %}%"></i></div>
+          </div>
+          {% empty %}
+          <p class="empty">No goals recorded yet.</p>
+          {% endfor %}
+        </div>
+
+        <div class="panel">
+          <h3>Top creators</h3>
+          {% for player in top_assists %}
+          <div class="row {% if forloop.first %}lead{% endif %}">
+            <span class="rank">{{ forloop.counter }}</span>
+            <div class="who"><strong>{{ player.name }}</strong><span>{{ player.position }}</span></div>
+            <span class="val">{{ player.assists }}</span>
+            <div class="bar"><i style="width: {% widthratio player.assists 20 100 %}%"></i></div>
+          </div>
+          {% empty %}
+          <p class="empty">No assists recorded yet.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Recent highlight</h2>
+      <div class="highlight-box">
+        <div>
+          <p class="eyebrow">Team culture</p>
+          <h3>Play as one team, win as a club.</h3>
+          <p>Three Feathers stands for courage, discipline and fast attacking hockey. Every player is pushed to be brave on the ball and relentless without it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Featured moments</h2>
+      <div class="gal home-gallery">
+        {% for image in gallery|slice:':4' %}
+        <figure>
+          {% if image.image %}<img src="{{ image.image.url }}" alt="{{ image.title }}">{% endif %}
+          <figcaption>{{ image.caption }}</figcaption>
+        </figure>
+        {% empty %}
+        <p class="empty on-bg">No gallery images yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

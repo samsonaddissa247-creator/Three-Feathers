@@ -1,0 +1,34 @@
+{% extends 'club/base.html' %}
+
+{% block title %}Players | Three Feathers{% endblock %}
+
+{% block content %}
+<section class="page-section">
+  <div class="wrap">
+    <h1>Squad</h1>
+    <p class="lede">The players shaping the identity of Three Feathers this season.</p>
+    <div class="grid players-grid">
+      {% for player in players %}
+      <article class="card">
+        <div class="cardhead">
+          {% if player.photo %}
+          <img class="ava" src="{{ player.photo.url }}" alt="{{ player.name }}">
+          {% else %}
+          <div class="ava">{{ player.name|slice:':2'|upper }}</div>
+          {% endif %}
+          <div class="num">{% if player.number %}#{{ player.number }}{% endif %}</div>
+        </div>
+        <h3>{{ player.name }}</h3>
+        <div class="pos">{{ player.position }}</div>
+        <div class="tally">
+          <div><b>{{ player.goals }}</b><span>Goals</span></div>
+          <div><b>{{ player.assists }}</b><span>Assists</span></div>
+        </div>
+      </article>
+      {% empty %}
+      <p class="empty on-bg">No players have been added yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Three Feathers{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'club/styles.css' %}">
+</head>
+<body>
+    <header class="top">
+        <div class="wrap topbar">
+            <a class="brand" href="{% url 'home' %}">Three Feathers</a>
+            <nav aria-label="Main navigation">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'players' %}">Players</a>
+                <a href="{% url 'fixtures' %}">Fixtures</a>
+                <a href="{% url 'gallery' %}">Gallery</a>
+                <a href="{% url 'coach_dashboard' %}">Coach</a>
+            </nav>
+            {% if request.session.coach_authenticated %}
+                <a class="coachbtn" href="{% url 'coach_logout' %}">Coach logout</a>
+            {% else %}
+                <a class="coachbtn" href="{% url 'coach_login' %}">Coach login</a>
+            {% endif %}
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <footer class="site-footer">
+        <div class="wrap footer-wrap">
+            <span>{{ club.name }}</span>
+            <span>{{ club.contact|default:'hello@threefeathers.club' }}</span>
+        </div>
+        <div class="wrap signature-wrap">
+            <p class="signature">Done by Addissa Samson/diggs</p>
+        </div>
+    </footer>
+</body>
+</html>
